@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import os
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,12 +11,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sa!yte_jsq(n4koyq$6z3^)9vm2v^cs!4fd3oc-67x3d_=w&f4'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -72,7 +72,7 @@ DATABASES = {
     }
 }
 
-
+DATABASES ["default"] =dj_database_url.parse("postgres://mysite_shwx_user:Qzrq8ssN0OQdtljXOcNhlYk8O5wW4Hfq@dpg-cnf95nla73kc7391r870-a.oregon-postgres.render.com/mysite_shwx")
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -115,3 +115,6 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "books/static")
 ]
+
+
+CSRF_TRUSTED_ORIGINS_SAME_ORIGIN = True
